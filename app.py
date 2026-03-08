@@ -32,11 +32,11 @@ MASTER_ACCOUNT_ID = "4606639184"
 
 # ghost_names moved to global so execute_command can pick from it if account_id not provided
 ghost_names = {
-  "4606639184": "tele : @xza_antiban",
-  "4606639196": "tele : @spider_antiban",
-  "4606639195": "MEHDI : VIP",
-  "4606639969": "Spider : mehdi",
-  "4606640002": "XZA X STORE"
+  "4606639184": "XZA      TEAM",
+  "4606639196": "insta :mehdi_offv1",
+  "4606639195": "Telegram : @xza_antiban",
+  "4606639969": "frined :Spider",
+  "4606640002": "XZA TOP 1"
 }
 
 
@@ -850,7 +850,8 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     atexit.register(cleanup)
-
+    # Get port from environment variable for Render
+    port = int(os.environ.get("PORT", 5000))
     try:
         accounts = load_accounts("accounts.json")
         for account_id, password in accounts.items():
