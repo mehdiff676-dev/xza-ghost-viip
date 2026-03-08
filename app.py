@@ -851,26 +851,20 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, signal_handler)
     atexit.register(cleanup)
 
-    # Load accounts from environment variable or file
-    accounts_json = os.environ.get("ACCOUNTS_JSON", "{}")
     try:
-        accounts = json.loads(accounts_json)
-    except:
         accounts = load_accounts("accounts.json")
-    
-    for account_id, password in accounts.items():
-        client = TcpBotConnectMain(account_id, password)
-        clients[account_id] = client
-        client_thread = threading.Thread(target=client.run)
-        client_thread.daemon = True
-        client_thread.start()
-        time.sleep(3)
+        for account_id, password in accounts.items():
+            client = TcpBotConnectMain(account_id, password)
+            clients[account_id] = client
+            client_thread = threading.Thread(target=client.run)
+            client_thread.daemon = True
+            client_thread.start()
+            time.sleep(3)
+    except FileNotFoundError:
+        print("No accounts file found. Starting without preloaded accounts.")
 
-    # Get port from environment variable for Render
-    port = int(os.environ.get("PORT", 5000))
-    
     try:
-        app.run(host="0.0.0.0", port=port, debug=False)
+        app.run(host="0.0.0.0", port=2026, debug=False)
     except KeyboardInterrupt:
         print("Server stopped by user")
         cleanup()
